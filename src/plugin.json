@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "datasource",
+  "name": "node-graph-plugin",
+  "id": "k-8-s-packet-node-graph-plugin",
+  "metrics": true,
+  "info": {
+    "description": "k8spacket node graph plugin",
+    "author": {
+      "name": "dariusz.barecki",
+      "url": ""
+    },
+    "keywords": [
+      "k8spacket",
+      "tcp",
+      "network",
+      "traffic",
+      "node-graph",
+      "grafana"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/grafana-starter-datasource"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/grafana-starter-datasource/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=8.4.3",
+    "plugins": []
+  }
+}
