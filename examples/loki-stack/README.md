@@ -56,4 +56,4 @@ See full example file [promop-values.yaml](promop-values.yaml)
 
 After these steps you will be able to use the plugin in Grafana:
 
-![grafana.png](grafana.png)
+![explore.png](explore.png)
