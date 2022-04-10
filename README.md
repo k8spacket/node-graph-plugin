@@ -20,6 +20,14 @@ Datasource plugin to visualize data as Node graph panel for Grafana (https://gra
       "arc__3":{
          "displayName":"Third factor",
          "color":"blue"
+      },
+       "mainStat": {
+         "displayName": " ",
+         "color": ""
+      },
+      "secondaryStat": {
+         "displayName": " ",
+         "color": ""
       }
    },
    "nodes":[
