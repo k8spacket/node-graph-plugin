@@ -68,4 +68,18 @@ Datasource plugin to visualize data as Node graph panel for Grafana (https://gra
 
 ## Getting started
 
-See example for [loki-stack](https://github.com/k8spacket/node-graph-plugin/blob/master/examples/loki-stack/README.md)
+### Configuration
+
+To install plugin see example for [loki-stack](https://github.com/k8spacket/node-graph-plugin/blob/master/examples/loki-stack/README.md)
+
+Next add and configure datasource plugin in your Grafana instance
+
+As `baseUrl` you can enter url to your metrics service API
+
+![config.png](https://raw.githubusercontent.com/k8spacket/node-graph-plugin/master/src/img/config.png)
+
+### Explore
+
+Go to Explore, select `Node Graph Panel API` as datasource, and provide context to your metrics endpoint
+
+![explore.png](https://raw.githubusercontent.com/k8spacket/node-graph-plugin/master/src/img/explore.png)

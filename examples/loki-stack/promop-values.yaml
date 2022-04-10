@@ -16,7 +16,7 @@ grafana:
         - |
           #!/bin/sh
           set -euo pipefail
-          echo "Install k8spacket plugin 3"
+          echo "Install k8spacket plugin"
           mkdir -p /var/lib/grafana/plugins/node-graph-plugin
           cd /var/lib/grafana/plugins/node-graph-plugin
           for url in https://github.com/k8spacket/node-graph-plugin/releases/download/1.0.0/plugin.zip; do
@@ -27,21 +27,5 @@ grafana:
       volumeMounts:
         - name: storage
           mountPath: /var/lib/grafana
-  datasources:
-    node-graph-plugin-datasource.yaml:
-      apiVersion: 1
-      datasources:
-        - name: "node-graph-plugin"
-          jsonData:
-            baseUrl: "http://k8spacket.k8spacket.svc.cluster.local:8080"
-          access: "proxy"
-          basicAuth: false
-          isDefault: false
-          readOnly: false
-          type: "k8spacket-nodegraphplugin-datasource"
-          typeLogoUrl: "public/plugins/k8spacket-nodegraphplugin-datasource/img/logo.svg"
-          typeName: "node-graph-plugin"
-          orgId: 1
-          version: 1
 
 

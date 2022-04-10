@@ -34,29 +34,6 @@ The second step is to use the init container to load the plugin from GitHub rele
           mountPath: /var/lib/grafana
 ```
 
-The third and the last step is telling Grafana about using the new datasource plugin:
-
-```yaml
-  datasources:
-    node-graph-plugin-datasource.yaml:
-      apiVersion: 1
-      datasources:
-        - name: "node-graph-plugin"
-          jsonData:
-            baseUrl: "https://raw.githubusercontent.com/k8spacket/node-graph-plugin/master/examples/loki-stack"
-          access: "proxy"
-          basicAuth: false
-          isDefault: false
-          readOnly: false
-          type: "k8spacket-nodegraphplugin-datasource"
-          typeLogoUrl: "public/plugins/k8spacket-nodegraphplugin-datasource/img/logo.svg"
-          typeName: "node-graph-plugin"
-          orgId: 1
-          version: 1
-```
-
 See full example file [promop-values.yaml](promop-values.yaml)
 
-After these steps you will be able to use the plugin in Grafana:
-
-![explore.png](explore.png)
+After these steps you will be able to use the plugin in Grafana
