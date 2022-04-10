@@ -4,6 +4,12 @@
   "name": "Node Graph Panel API",
   "id": "k8spacket-nodegraphplugin-datasource",
   "metrics": true,
+  "routes": [
+    {
+      "path": "apiroute",
+      "url": "{{ .JsonData.baseUrl }}"
+    }
+  ],
   "info": {
     "description": "A Datasource plugin transforms JSON API response to data understandable by Grafana Node Graph panel visualization",
     "author": {

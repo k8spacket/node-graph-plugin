@@ -1,4 +1,3 @@
-import jsonpath from 'jsonpath';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 
 import {
@@ -12,26 +11,28 @@ import {
   ScopedVars,
 } from '@grafana/data';
 
-import { MyDataSourceOptions, MyQuery } from './types';
+import { NodeGraphDataSourceOptions, NodeGraphQuery } from './types';
 
-export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
-  constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
+export class DataSource extends DataSourceApi<NodeGraphQuery, NodeGraphDataSourceOptions> {
+  baseUrl?: string;
+
+  constructor(instanceSettings: DataSourceInstanceSettings<NodeGraphDataSourceOptions>) {
     super(instanceSettings);
+    this.baseUrl = instanceSettings.url;
   }
 
-  jp(json: object, query: string): any[] {
-    return jsonpath.query(json, query);
-  }
-
-  async doRequest(query: MyQuery, scopedVars: ScopedVars) {
-    if (query.dataUrl) {
-      return getBackendSrv().get(getTemplateSrv().replace(query.dataUrl, scopedVars));
+  async doRequest(query: NodeGraphQuery, scopedVars: ScopedVars) {
+    if (query.metricsContext) {
+      return getBackendSrv().datasourceRequest({
+        method: 'GET',
+        url: this.baseUrl + '/apiroute' + getTemplateSrv().replace(query.metricsContext, scopedVars),
+      });
     } else {
       return Promise.resolve();
     }
   }
 
-  async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
+  async query(options: DataQueryRequest<NodeGraphQuery>): Promise<DataQueryResponse> {
     const promises = options.targets.flatMap((query) =>
       this.doRequest(query, options.scopedVars).then((response) => {
         const nodesFrame = new MutableDataFrame({
@@ -47,24 +48,24 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
               name: 'mainStat',
               type: FieldType.string,
               config: {
-                displayName: this.jp(response, '$.config.mainStat.displayName')[0],
+                displayName: response?.data.config.mainStat.displayName,
               },
             },
             {
               name: 'secondaryStat',
               type: FieldType.string,
               config: {
-                displayName: this.jp(response, '$.config.secondaryStat.displayName')[0],
+                displayName: response?.data.config.secondaryStat.displayName,
               },
             },
             {
               name: 'arc__1',
               type: FieldType.number,
               config: {
-                displayName: this.jp(response, '$.config.arc__1.displayName')[0],
+                displayName: response?.data.config.arc__1.displayName,
                 color: {
                   mode: FieldColorModeId.Fixed,
-                  fixedColor: this.jp(response, '$.config.arc__1.color')[0],
+                  fixedColor: response?.data.config.arc__1.color,
                 },
               },
             },
@@ -72,10 +73,10 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
               name: 'arc__2',
               type: FieldType.number,
               config: {
-                displayName: this.jp(response, '$.config.arc__2.displayName')[0],
+                displayName: response?.data.config.arc__2.displayName,
                 color: {
                   mode: FieldColorModeId.Fixed,
-                  fixedColor: this.jp(response, '$.config.arc__2.color')[0],
+                  fixedColor: response?.data.config.arc__2.color,
                 },
               },
             },
@@ -83,10 +84,10 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
               name: 'arc__3',
               type: FieldType.number,
               config: {
-                displayName: this.jp(response, '$.config.arc__3.displayName')[0],
+                displayName: response?.data.config.arc__3.displayName,
                 color: {
                   mode: FieldColorModeId.Fixed,
-                  fixedColor: this.jp(response, '$.config.arc__3.color')[0],
+                  fixedColor: response?.data.config.arc__3.color,
                 },
               },
             },
@@ -108,7 +109,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         });
 
         if (response) {
-          response.nodes.forEach((point: any) => {
+          response.data.nodes.forEach((point: any) => {
             nodesFrame.appendRow([
               point.id,
               point.title,
@@ -121,7 +122,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
             ]);
           });
 
-          response.edges.forEach((point: any) => {
+          response.data.edges.forEach((point: any) => {
             edgesFrame.appendRow([point.id, point.source, point.target, point.mainStat, point.secondaryStat]);
           });
         }
