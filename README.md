@@ -2,7 +2,7 @@
 
 Datasource plugin to visualize data as Node graph panel for Grafana (https://grafana.com/docs/grafana/latest/visualizations/node-graph/)
 
-![img.png](src/img/panel.png)
+![img.png](https://raw.githubusercontent.com/k8spacket/node-graph-plugin/master/src/img/panel.png)
 
 ## Required JSON format
 
