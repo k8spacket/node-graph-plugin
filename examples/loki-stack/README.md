@@ -6,7 +6,7 @@ This plugin is not signed and is not available publicity from Grafana plugins re
 
 ```yaml
   env:
-    GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: k-8-s-packet-node-graph-plugin
+    GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: k8spacket-nodegraphplugin-datasource
 ```
 
 The second step is to use the init container to load the plugin from GitHub releases repo:
@@ -21,9 +21,10 @@ The second step is to use the init container to load the plugin from GitHub rele
         - |
           #!/bin/sh
           set -euo pipefail
+          echo "Install k8spacket plugin"
           mkdir -p /var/lib/grafana/plugins/node-graph-plugin
           cd /var/lib/grafana/plugins/node-graph-plugin
-          for url in https://github.com/k8spacket/node-graph-plugin/releases/download/0.1.0/plugin.zip; do
+          for url in https://github.com/k8spacket/node-graph-plugin/releases/download/1.0.0/plugin.zip; do
             wget --no-check-certificate $url -O temp.zip
             unzip temp.zip
             rm temp.zip
@@ -40,16 +41,18 @@ The third and the last step is telling Grafana about using the new datasource pl
     node-graph-plugin-datasource.yaml:
       apiVersion: 1
       datasources:
-      - name: "node-graph-plugin"
-        access: "proxy"
-        basicAuth: false
-        isDefault: false
-        readOnly: false
-        type: "k-8-s-packet-node-graph-plugin"
-        typeLogoUrl: "public/plugins/k-8-s-packet-node-graph-plugin/img/logo.svg"
-        typeName: "node-graph-plugin"
-        orgId: 1
-        version: 1
+        - name: "node-graph-plugin"
+          jsonData:
+            baseUrl: "https://raw.githubusercontent.com/k8spacket/node-graph-plugin/master/examples/loki-stack"
+          access: "proxy"
+          basicAuth: false
+          isDefault: false
+          readOnly: false
+          type: "k8spacket-nodegraphplugin-datasource"
+          typeLogoUrl: "public/plugins/k8spacket-nodegraphplugin-datasource/img/logo.svg"
+          typeName: "node-graph-plugin"
+          orgId: 1
+          version: 1
 ```
 
 See full example file [promop-values.yaml](promop-values.yaml)

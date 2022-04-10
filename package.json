@@ -1,5 +1,5 @@
 {
-  "name": "k-8-s-packet-node-graph-plugin",
+  "name": "k8spacket-nodegraphplugin-datasource",
   "version": "1.0.0",
   "description": "k8spacket node graph plugin",
   "scripts": {
@@ -10,7 +10,7 @@
     "sign": "grafana-toolkit plugin:sign",
     "start": "yarn watch"
   },
-  "author": "dariusz.barecki",
+  "author": "darek.barecki",
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/data": "latest",

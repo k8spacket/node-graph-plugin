@@ -6,7 +6,7 @@ grafana:
   image:
     tag: 8.4.3
   env:
-    GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: k-8-s-packet-node-graph-plugin
+    GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: k8spacket-nodegraphplugin-datasource
   extraInitContainers:
     - name: local-plugins-downloader
       image: busybox
@@ -16,9 +16,10 @@ grafana:
         - |
           #!/bin/sh
           set -euo pipefail
+          echo "Install k8spacket plugin 3"
           mkdir -p /var/lib/grafana/plugins/node-graph-plugin
           cd /var/lib/grafana/plugins/node-graph-plugin
-          for url in https://github.com/k8spacket/node-graph-plugin/releases/download/0.1.0/plugin.zip; do
+          for url in https://github.com/k8spacket/node-graph-plugin/releases/download/1.0.0/plugin.zip; do
             wget --no-check-certificate $url -O temp.zip
             unzip temp.zip
             rm temp.zip
@@ -30,15 +31,17 @@ grafana:
     node-graph-plugin-datasource.yaml:
       apiVersion: 1
       datasources:
-      - name: "node-graph-plugin"
-        access: "proxy"
-        basicAuth: false
-        isDefault: false
-        readOnly: false
-        type: "k-8-s-packet-node-graph-plugin"
-        typeLogoUrl: "public/plugins/k-8-s-packet-node-graph-plugin/img/logo.svg"
-        typeName: "node-graph-plugin"
-        orgId: 1
-        version: 1
+        - name: "node-graph-plugin"
+          jsonData:
+            baseUrl: "http://k8spacket.k8spacket.svc.cluster.local:8080"
+          access: "proxy"
+          basicAuth: false
+          isDefault: false
+          readOnly: false
+          type: "k8spacket-nodegraphplugin-datasource"
+          typeLogoUrl: "public/plugins/k8spacket-nodegraphplugin-datasource/img/logo.svg"
+          typeName: "node-graph-plugin"
+          orgId: 1
+          version: 1
 
 
