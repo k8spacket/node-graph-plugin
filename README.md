@@ -2,7 +2,7 @@
 
 Datasource plugin to visualize data as Node graph panel for Grafana (https://grafana.com/docs/grafana/latest/visualizations/node-graph/)
 
-![img.png](docs/img.png)
+![img.png](src/img/panel.png)
 
 ## Required JSON format
 
@@ -60,4 +60,4 @@ Datasource plugin to visualize data as Node graph panel for Grafana (https://gra
 
 ## Getting started
 
-See example for [loki-stack](examples/loki-stack/README.md)
+See example for [loki-stack](https://github.com/k8spacket/node-graph-plugin/blob/master/examples/loki-stack/README.md)

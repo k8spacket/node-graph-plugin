@@ -30,7 +30,12 @@
         "url": "https://github.com/k8spacket/node-graph-plugin/blob/master/LICENSE"
       }
     ],
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Panel Example",
+        "path": "img/panel.png"
+      }
+    ],
     "version": "1.0.0",
     "updated": "%TODAY%"
   },
